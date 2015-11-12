@@ -1,0 +1,37 @@
+settare manualmente l'orario, se non corretto. ad es:
+sudo date -s "05 DEC 2014 20:33:00"
+
+per avviare il processo di acquisizione dati:
+cd /home/pi/sw/projects/ecpiww/linux/bin 
+./ecpiww -p 0 -m T CSV
+lo 0 nella riga precedente indica il numero della porta USB in cui è inserito il dongle MBUS.
+Se viene visualizzato un messaggio di errore, provare a cambiare numero di porta.
+
+premere l dopo la schermata di presentazione dei comandi e verificare 
+che compaia il List of active Meters (1 defined):
+Meter#1 : Manufactor = 0x18C4
+Meter#1 : Ident      = 0x06574965
+Meter#1 : Type       = 0x03
+Meter#1 : Version    = 0x01
+Meter#1 : Key        = 0x01234567ABCDEF0001234567ABCDEF00
+
+Nota: se non compare questa lista, premere "a" per aggiungere il meter e 
+      indicare come codice di identificazione 06574965
+      come tipo "3" ovvero gas
+      come opzione di criptografia "2". verrà poi richiesto di inserire il
+      codice di crittografia. inserire 01234567ABCDEF0001234567ABCDEF00
+
+fatto questo il contatore dovrebbe essere aggiunto alla lista e funzionare 
+corretamente, ricevendo i dati in un file csv.
+
+Premere il pulsante sulla telecamera fino a visualizzare il numero 3 e rilasciare.
+Posizionare la telecamera sul contatore, seguendo le frecce. La posizione
+ottimale è un po' più bassa rispetto alle cifre del contatore.
+
+
+per guardare il file dove vengono salvati i dati:
+
+cd  /var/www/ecpiww/data/
+sudo nano ecpiwwM1.csv
+
+ 

@@ -1,0 +1,30 @@
+#for cross compiling call "make -f <file> CROSS=1
+
+INC= -I .   -I ../include
+
+ifeq "$(CROSS)" "1"
+    CC     = arm-linux-gnueabihf-gcc
+    CPP    = arm-linux-gnueabihf-g++
+else
+    CC     = gcc
+    CPP    = g++
+endif
+
+all:	 ecpiww 
+
+		
+ecpiww: 		ecpiww.o wmbus.o hiredis.o 
+				$(CC) -o ecpiww ecpiww.o wmbus.o hiredis.o ./hiredis/libhiredis.a -lpthread -ldl
+				
+ecpiww.o:		../src/energycam/ecpiww.c ../include/energycam/ecpiww.h 
+				$(CC) $(INC) -c ../src/energycam/ecpiww.c
+							
+wmbus.o:		../src/energycam/wmbus.c
+				$(CC) $(INC) -pthread -c ../src/energycam/wmbus.c
+
+hiredis.o:		./hiredis/hiredis.c ./hiredis/hiredis.h 
+				$(CC) $(INC) -c ./hiredis/hiredis.c 
+
+clean: 			
+				@rm -f ecpiww ecpiww.o wmbus.o hiredis/hiredis.o
+				@echo Clean done
